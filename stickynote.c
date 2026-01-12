@@ -123,7 +123,6 @@ StickyNote *create_sticky_note(int note_id) {
   gtk_widget_override_background_color(note->text_view, GTK_STATE_FLAG_NORMAL,
                                        &color);
 
-  // Set cursor color to light gray using CSS
   GtkCssProvider *css_provider = gtk_css_provider_new();
   const char *css = "textview { caret-color: #d3d3d3; }";
   gtk_css_provider_load_from_data(css_provider, css, -1, NULL);
