@@ -105,7 +105,7 @@ StickyNote *create_sticky_note(int note_id) {
   gtk_window_set_keep_above(GTK_WINDOW(note->window), TRUE);
 
   GdkRGBA color;
-  gdk_rgba_parse(&color, "#ffff99");
+  gdk_rgba_parse(&color, "#000000");
   gtk_widget_override_background_color(note->window, GTK_STATE_FLAG_NORMAL,
                                        &color);
 
@@ -115,16 +115,25 @@ StickyNote *create_sticky_note(int note_id) {
 
   note->text_view = gtk_text_view_new();
   gtk_text_view_set_wrap_mode(GTK_TEXT_VIEW(note->text_view), GTK_WRAP_WORD);
-  gtk_text_view_set_left_margin(GTK_TEXT_VIEW(note->text_view), 10);
-  gtk_text_view_set_right_margin(GTK_TEXT_VIEW(note->text_view), 10);
-  gtk_text_view_set_top_margin(GTK_TEXT_VIEW(note->text_view), 10);
-  gtk_text_view_set_bottom_margin(GTK_TEXT_VIEW(note->text_view), 10);
+  gtk_text_view_set_left_margin(GTK_TEXT_VIEW(note->text_view), 15);
+  gtk_text_view_set_right_margin(GTK_TEXT_VIEW(note->text_view), 15);
+  gtk_text_view_set_top_margin(GTK_TEXT_VIEW(note->text_view), 15);
+  gtk_text_view_set_bottom_margin(GTK_TEXT_VIEW(note->text_view), 15);
 
   gtk_widget_override_background_color(note->text_view, GTK_STATE_FLAG_NORMAL,
                                        &color);
 
+  // Set cursor color to light gray using CSS
+  GtkCssProvider *css_provider = gtk_css_provider_new();
+  const char *css = "textview { caret-color: #d3d3d3; }";
+  gtk_css_provider_load_from_data(css_provider, css, -1, NULL);
+  GtkStyleContext *context = gtk_widget_get_style_context(note->text_view);
+  gtk_style_context_add_provider(context, GTK_STYLE_PROVIDER(css_provider),
+                                 GTK_STYLE_PROVIDER_PRIORITY_APPLICATION);
+  g_object_unref(css_provider);
+
   GdkRGBA text_color;
-  gdk_rgba_parse(&text_color, "#000000");
+  gdk_rgba_parse(&text_color, "#ffffff");
   gtk_widget_override_color(note->text_view, GTK_STATE_FLAG_NORMAL,
                             &text_color);
 
